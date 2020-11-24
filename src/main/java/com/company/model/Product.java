@@ -3,6 +3,7 @@ package com.company.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -71,9 +72,27 @@ public class Product implements Serializable {
     }
 
     @Override
-    public String toString() {
-        return "Product [id=" + id + ", name=" + name
-                + ", price=" + price + ", "
-                + ", details=" + details + "]";
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return Objects.equals(id, product.id) &&
+                Objects.equals(name, product.name) &&
+                Objects.equals(price, product.price) &&
+                Objects.equals(details, product.details) &&
+                Objects.equals(orders, product.orders);
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, price, details, orders);
+    }
+
+    //    @Override
+//    public String toString() {
+//        return "Product [id=" + id
+//                + ", name=" + name
+//                + ", price=" + price
+//                + ", details=" + details + "]";
+//    }
 }

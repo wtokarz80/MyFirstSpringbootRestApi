@@ -1,19 +1,14 @@
 package com.company.model;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "client_order")
@@ -24,7 +19,9 @@ public class Order implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_order")
     private Long id;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER,
+            cascade = CascadeType.PERSIST)
+    @Fetch(FetchMode.SELECT)
     @JoinTable(name = "order_products",
             joinColumns = { @JoinColumn(name = "order_id", referencedColumnName = "id_order") },
             inverseJoinColumns = { @JoinColumn(name = "product_id", referencedColumnName = "id_product") })
@@ -76,9 +73,28 @@ public class Order implements Serializable {
     }
 
     @Override
-    public String toString() {
-        return "Order [id=" + id + ", products=" + products.size() + ", orderDetails=" + orderDetails + ", client="
-                + client + "]";
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return Objects.equals(id, order.id) &&
+                Objects.equals(products, order.products) &&
+                Objects.equals(orderDetails, order.orderDetails) &&
+                Objects.equals(client, order.client);
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, products, orderDetails, client);
+    }
+
+    //    @Override
+//    public String toString() {
+//        return "Order [id=" + id
+//                + ", orderDetails=" + orderDetails
+//                + ", client=" + client.getFirstName() + " " + client.getLastName() + products.size()
+//                + ",\n products=" + products + "]";
+//    }
+
 
 }

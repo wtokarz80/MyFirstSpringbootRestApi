@@ -3,6 +3,7 @@ package com.company.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.*;
 
@@ -21,7 +22,9 @@ public class Client implements Serializable {
     private String lastName;
     @Column(nullable = false)
     private String address;
-    @OneToMany(mappedBy = "client")
+    @OneToMany(mappedBy = "client",
+            fetch = FetchType.EAGER,
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
     private List<Order> orders = new ArrayList<>();
 
     public Client() {}
@@ -62,10 +65,33 @@ public class Client implements Serializable {
     public void setOrders(List<Order> orders) {
         this.orders = orders;
     }
-    @Override
-    public String toString() {
-        return "Client [id=" + id + ", firstName=" + firstName
-                + ", lastName=" + lastName + ", address=" + address
-                + ", orders=" + orders + "]";
+
+    public void addOrder(Order order) {
+        order.setClient(this);
+        getOrders().add(order);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Client client = (Client) o;
+        return Objects.equals(id, client.id) &&
+                Objects.equals(firstName, client.firstName) &&
+                Objects.equals(lastName, client.lastName) &&
+                Objects.equals(address, client.address) &&
+                Objects.equals(orders, client.orders);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, lastName, address, orders);
+    }
+
+    //    @Override
+//    public String toString() {
+//        return "Client [id=" + id + ", firstName=" + firstName
+//                + ", lastName=" + lastName + ", address=" + address + orders.size()
+//                + ",\n orders=" + orders + "]";
+//    }
 }
