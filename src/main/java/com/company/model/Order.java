@@ -46,7 +46,6 @@ public class Order implements Serializable {
             inverseJoinColumns = { @JoinColumn(name = "product_id", referencedColumnName = "id_product") })
     private List<Product> products = new ArrayList<>();
 
-
     public Order() {
     }
 
@@ -92,9 +91,6 @@ public class Order implements Serializable {
     public int hashCode() {
         return Objects.hash(id, orderDetails);
     }
-
-
-
 
 
 }
