@@ -15,10 +15,29 @@ import javax.persistence.*;
 public class Order implements Serializable {
     private static final long serialVersionUID = 1L;
 
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Column(name = "id_order")
+//    private Long id;
+//    @ManyToMany(fetch = FetchType.EAGER,
+//            cascade = CascadeType.PERSIST)
+//    @Fetch(FetchMode.SELECT)
+//    @JoinTable(name = "order_products",
+//            joinColumns = { @JoinColumn(name = "order_id", referencedColumnName = "id_order") },
+//            inverseJoinColumns = { @JoinColumn(name = "product_id", referencedColumnName = "id_product") })
+//    private List<Product> products = new ArrayList<>();
+//    @Column(name = "details", length = 512)
+//    private String orderDetails;
+//    @ManyToOne
+//    @JoinColumn(name = "client_id")
+//    private Client client;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_order")
     private Long id;
+    @Column(name = "details", length = 512)
+    private String orderDetails;
     @ManyToMany(fetch = FetchType.EAGER,
             cascade = CascadeType.PERSIST)
     @Fetch(FetchMode.SELECT)
@@ -26,18 +45,6 @@ public class Order implements Serializable {
             joinColumns = { @JoinColumn(name = "order_id", referencedColumnName = "id_order") },
             inverseJoinColumns = { @JoinColumn(name = "product_id", referencedColumnName = "id_product") })
     private List<Product> products = new ArrayList<>();
-    @Column(name = "details", length = 512)
-    private String orderDetails;
-    @ManyToOne
-    @JoinColumn(name = "client_id")
-    private Client client;
-
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name = "id_order")
-//    private Long id;
-//    @Column(name = "details", length = 512)
-//    private String orderDetails;
 
 
     public Order() {
@@ -56,7 +63,13 @@ public class Order implements Serializable {
         this.id = id;
     }
 
+    public List<Product> getProducts() {
+        return products;
+    }
 
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
 
     public String getOrderDetails() {
         return orderDetails;
