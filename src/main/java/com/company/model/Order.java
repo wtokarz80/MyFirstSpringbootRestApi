@@ -94,13 +94,7 @@ public class Order implements Serializable {
     }
 
 
-//    @Override
-//    public String toString() {
-//        return "Order [id=" + id
-//                + ", orderDetails=" + orderDetails
-//                + ", client=" + client.getFirstName() + " " + client.getLastName() + products.size()
-//                + ",\n products=" + products + "]";
-//    }
+
 
 
 }
