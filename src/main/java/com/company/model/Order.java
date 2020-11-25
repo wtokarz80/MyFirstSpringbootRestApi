@@ -32,6 +32,14 @@ public class Order implements Serializable {
     @JoinColumn(name = "client_id")
     private Client client;
 
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Column(name = "id_order")
+//    private Long id;
+//    @Column(name = "details", length = 512)
+//    private String orderDetails;
+
+
     public Order() {
     }
 
@@ -48,13 +56,7 @@ public class Order implements Serializable {
         this.id = id;
     }
 
-    public List<Product> getProducts() {
-        return products;
-    }
 
-    public void setProduct(List<Product> products) {
-        this.products = products;
-    }
 
     public String getOrderDetails() {
         return orderDetails;
@@ -64,31 +66,22 @@ public class Order implements Serializable {
         this.orderDetails = orderDetails;
     }
 
-    public Client getClient() {
-        return client;
-    }
-
-    public void setClient(Client client) {
-        this.client = client;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
         return Objects.equals(id, order.id) &&
-                Objects.equals(products, order.products) &&
-                Objects.equals(orderDetails, order.orderDetails) &&
-                Objects.equals(client, order.client);
+                Objects.equals(orderDetails, order.orderDetails);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, products, orderDetails, client);
+        return Objects.hash(id, orderDetails);
     }
 
-    //    @Override
+
+//    @Override
 //    public String toString() {
 //        return "Order [id=" + id
 //                + ", orderDetails=" + orderDetails

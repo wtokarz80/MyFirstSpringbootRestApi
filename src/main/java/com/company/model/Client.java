@@ -27,6 +27,22 @@ public class Client implements Serializable {
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
     private List<Order> orders = new ArrayList<>();
 
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Column(name = "id_client")
+//    private Long id;
+//    @Column(name="firstname", nullable=false)
+//    private String firstName;
+//    @Column(name="lastname", nullable=false)
+//    private String lastName;
+//    @Column(nullable = false)
+//    private String address;
+//    @OneToMany(cascade = CascadeType.REMOVE)
+//    @JoinColumn(name = "client_id", updatable = false, insertable = false)
+//    private List<Order> orders = new ArrayList<>();
+
+
+
     public Client() {}
 
     public Client(String firstName, String lastName, String address) {
@@ -66,10 +82,10 @@ public class Client implements Serializable {
         this.orders = orders;
     }
 
-    public void addOrder(Order order) {
-        order.setClient(this);
-        getOrders().add(order);
-    }
+//    public void addOrder(Order order) {
+//        order.setClient(this);
+//        getOrders().add(order);
+//    }
 
     @Override
     public boolean equals(Object o) {
@@ -87,6 +103,7 @@ public class Client implements Serializable {
     public int hashCode() {
         return Objects.hash(id, firstName, lastName, address, orders);
     }
+
 
     //    @Override
 //    public String toString() {
