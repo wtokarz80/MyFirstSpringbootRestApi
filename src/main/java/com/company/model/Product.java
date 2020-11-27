@@ -14,9 +14,22 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "product")
+@Table(name = "products")
 public class Product implements Serializable {
     private static final long serialVersionUID = 1L;
+
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Column(name = "id_product")
+//    private Long id;
+//    @Column(name = "product_name", nullable = false)
+//    private String name;
+//    @Column(name = "price")
+//    private Double price;
+//    @Column(name = "details")
+//    private String details;
+//    @ManyToMany(mappedBy = "products")
+//    private List<Order> orders = new ArrayList<>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,8 +41,6 @@ public class Product implements Serializable {
     private Double price;
     @Column(name = "details")
     private String details;
-    @ManyToMany(mappedBy = "products")
-    private List<Order> orders = new ArrayList<>();
 
     public Product() {}
 
@@ -63,13 +74,7 @@ public class Product implements Serializable {
     public void setDetails(String details) {
         this.details = details;
     }
-    public List<Order> getOrders() {
-        return orders;
-    }
 
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -79,20 +84,11 @@ public class Product implements Serializable {
         return Objects.equals(id, product.id) &&
                 Objects.equals(name, product.name) &&
                 Objects.equals(price, product.price) &&
-                Objects.equals(details, product.details) &&
-                Objects.equals(orders, product.orders);
+                Objects.equals(details, product.details);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, price, details, orders);
+        return Objects.hash(id, name, price, details);
     }
-
-    //    @Override
-//    public String toString() {
-//        return "Product [id=" + id
-//                + ", name=" + name
-//                + ", price=" + price
-//                + ", details=" + details + "]";
-//    }
 }

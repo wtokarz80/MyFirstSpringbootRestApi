@@ -15,10 +15,29 @@ import javax.persistence.*;
 public class Order implements Serializable {
     private static final long serialVersionUID = 1L;
 
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Column(name = "id_order")
+//    private Long id;
+//    @ManyToMany(fetch = FetchType.EAGER,
+//            cascade = CascadeType.PERSIST)
+//    @Fetch(FetchMode.SELECT)
+//    @JoinTable(name = "order_products",
+//            joinColumns = { @JoinColumn(name = "order_id", referencedColumnName = "id_order") },
+//            inverseJoinColumns = { @JoinColumn(name = "product_id", referencedColumnName = "id_product") })
+//    private List<Product> products = new ArrayList<>();
+//    @Column(name = "details", length = 512)
+//    private String orderDetails;
+//    @ManyToOne
+//    @JoinColumn(name = "client_id")
+//    private Client client;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_order")
     private Long id;
+    @Column(name = "details", length = 512)
+    private String orderDetails;
     @ManyToMany(fetch = FetchType.EAGER,
             cascade = CascadeType.PERSIST)
     @Fetch(FetchMode.SELECT)
@@ -26,11 +45,6 @@ public class Order implements Serializable {
             joinColumns = { @JoinColumn(name = "order_id", referencedColumnName = "id_order") },
             inverseJoinColumns = { @JoinColumn(name = "product_id", referencedColumnName = "id_product") })
     private List<Product> products = new ArrayList<>();
-    @Column(name = "details", length = 512)
-    private String orderDetails;
-    @ManyToOne
-    @JoinColumn(name = "client_id")
-    private Client client;
 
     public Order() {
     }
@@ -52,7 +66,7 @@ public class Order implements Serializable {
         return products;
     }
 
-    public void setProduct(List<Product> products) {
+    public void setProducts(List<Product> products) {
         this.products = products;
     }
 
@@ -64,37 +78,19 @@ public class Order implements Serializable {
         this.orderDetails = orderDetails;
     }
 
-    public Client getClient() {
-        return client;
-    }
-
-    public void setClient(Client client) {
-        this.client = client;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
         return Objects.equals(id, order.id) &&
-                Objects.equals(products, order.products) &&
-                Objects.equals(orderDetails, order.orderDetails) &&
-                Objects.equals(client, order.client);
+                Objects.equals(orderDetails, order.orderDetails);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, products, orderDetails, client);
+        return Objects.hash(id, orderDetails);
     }
-
-    //    @Override
-//    public String toString() {
-//        return "Order [id=" + id
-//                + ", orderDetails=" + orderDetails
-//                + ", client=" + client.getFirstName() + " " + client.getLastName() + products.size()
-//                + ",\n products=" + products + "]";
-//    }
 
 
 }
