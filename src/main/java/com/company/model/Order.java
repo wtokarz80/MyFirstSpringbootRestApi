@@ -36,6 +36,7 @@ public class Order implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_order")
     private Long id;
+    private Long clientId;
     @Column(name = "details", length = 512)
     private String orderDetails;
     @ManyToMany(fetch = FetchType.EAGER,
@@ -60,6 +61,15 @@ public class Order implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getClientId() {
+        return clientId;
+    }
+
+    public Order setClientId(Long clientId) {
+        this.clientId = clientId;
+        return this;
     }
 
     public List<Product> getProducts() {

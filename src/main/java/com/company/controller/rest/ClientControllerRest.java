@@ -5,6 +5,7 @@ import com.company.controller.dto.DtoMapper;
 import com.company.model.Client;
 import com.company.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,10 +23,10 @@ public class ClientControllerRest {
         this.clientService = clientService;
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Client> getClients(@RequestParam(defaultValue = "1") int page) {
+    @GetMapping(path = "/comments", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Client> getClientsWithOrders(@RequestParam(defaultValue = "1") int page, Sort.Direction sort) {
         int pageNumber = page > 0 ? page : 1;
-        return clientService.getByLastName(pageNumber-1);
+        return clientService.getByLastNameWithOrders(pageNumber-1, sort);
     }
 
     @GetMapping(path = "/first",produces = MediaType.APPLICATION_JSON_VALUE)
@@ -57,10 +58,10 @@ public class ClientControllerRest {
 
     // DTO CLIENT
 
-    @GetMapping(path = "/dto", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<ClientDto> getDtoClients(@RequestParam(defaultValue = "1") int page) {
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<ClientDto> getDtoClients(@RequestParam(defaultValue = "1") int page, Sort.Direction sort) {
         int pageNumber = page > 0 ? page : 1;
-        return DtoMapper.mapToClientDtos(clientService.getByLastName(pageNumber-1));
+        return DtoMapper.mapToClientDtos(clientService.getByLastName(pageNumber-1, sort));
     }
 
 }

@@ -42,6 +42,7 @@ public class Product implements Serializable {
     @Column(name = "details")
     private String details;
 
+
     public Product() {}
 
     public Product(String name, Double price, String details) {
@@ -90,5 +91,15 @@ public class Product implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id, name, price, details);
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", details='" + details + '\'' +
+                '}';
     }
 }
