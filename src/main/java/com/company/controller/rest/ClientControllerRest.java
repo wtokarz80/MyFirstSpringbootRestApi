@@ -1,5 +1,7 @@
 package com.company.controller.rest;
 
+import com.company.controller.dto.ClientDto;
+import com.company.controller.dto.DtoMapper;
 import com.company.model.Client;
 import com.company.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,16 +23,22 @@ public class ClientControllerRest {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Client> getClients(@RequestParam(defaultValue="lastName") String orderBy) {
-        return clientService.getClients(orderBy);
+    public List<Client> getClients(@RequestParam(defaultValue = "1") int page) {
+        int pageNumber = page > 0 ? page : 1;
+        return clientService.getByLastName(pageNumber-1);
+    }
 
+    @GetMapping(path = "/first",produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Client> getClientsByFirstName(@RequestParam(defaultValue="Wojtek") String firstName) {
+//        return clientService.getClients(orderBy);
+        return clientService.getAllByFirstName(firstName);
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Client> getClient(@PathVariable Long id) {
         return clientService.getClient(id);
     }
-    
+
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public void saveClient(@RequestBody Client client) {
@@ -47,6 +55,13 @@ public class ClientControllerRest {
         clientService.deleteClient(id);
     }
 
+    // DTO CLIENT
+
+    @GetMapping(path = "/dto", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<ClientDto> getDtoClients(@RequestParam(defaultValue = "1") int page) {
+        int pageNumber = page > 0 ? page : 1;
+        return DtoMapper.mapToClientDtos(clientService.getByLastName(pageNumber-1));
+    }
 
 }
 

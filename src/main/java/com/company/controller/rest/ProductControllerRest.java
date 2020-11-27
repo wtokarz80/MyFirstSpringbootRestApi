@@ -1,47 +1,47 @@
 package com.company.controller.rest;
 
-import com.company.model.Order;
 import com.company.model.Product;
-import com.company.repository.ClientRepository;
-import com.company.repository.OrderRepository;
-import com.company.repository.ProductRepository;
+import com.company.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Comparator;
 import java.util.List;
 
 @RestController
 @RequestMapping("/products")
 public class ProductControllerRest {
 
-    private ProductRepository productRepository;
+    private final ProductService productService;
 
     @Autowired
-    public ProductControllerRest(ProductRepository productRepository) {
-        this.productRepository = productRepository;
+    public ProductControllerRest(ProductService productService) {
+        this.productService = productService;
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Product> getProducts(@RequestParam(defaultValue = "name") String orderBy) {
-        List<Product> products = productRepository.findAll();
-        products.sort(Comparator.comparing(Product::getName));
-
-        return products;
+    public List<Product> getProducts() {
+        return productService.getProducts();
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Product> getProduct(@PathVariable Long id) {
-        return productRepository.findById(id)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        return productService.getProduct(id);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public void saveProduct(@RequestBody Product product) {
-        productRepository.save(product);
+        productService.saveProduct(product);
+    }
 
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Product> editProduct(@RequestBody Product product) {
+        return productService.editProduct(product);
+    }
+
+    @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public void deleteProduct(@PathVariable long id) {
+        productService.deleteProduct(id);
     }
 }
