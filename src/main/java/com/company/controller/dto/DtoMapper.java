@@ -10,7 +10,7 @@ public class DtoMapper {
     private DtoMapper(){}
 
     public static List<ClientDto> mapToClientDtos(List<Client> clients) {
-        return clients.stream().map(client -> mapClientToDto(client)).collect(Collectors.toList());
+        return clients.stream().map(DtoMapper::mapClientToDto).collect(Collectors.toList());
     }
 
     public static ClientDto mapClientToDto(Client client) {

@@ -38,7 +38,7 @@ public class Client implements Serializable {
     @Column(nullable = false)
     private String address;
     @OneToMany(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "client_id", updatable = false, insertable = false)
+    @JoinColumn(name = "clientId", updatable = false, insertable = false)
     private List<Order> orders = new ArrayList<>();
 
 
