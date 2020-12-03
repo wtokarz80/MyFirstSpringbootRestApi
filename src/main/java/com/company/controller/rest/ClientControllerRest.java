@@ -24,9 +24,10 @@ public class ClientControllerRest {
     }
 
     @GetMapping(path = "/comments", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Client> getClientsWithOrders(@RequestParam(defaultValue = "1") int page, Sort.Direction sort) {
-        int pageNumber = page > 0 ? page : 1;
-        return clientService.getByLastNameWithOrders(pageNumber-1, sort);
+    public List<Client> getClientsWithOrders(@RequestParam(required = false) Integer page, Sort.Direction sort) {
+        int pageNumber = page != null && page > 0 ? page : 1;
+        Sort.Direction sortDirection = sort != null ? sort : Sort.Direction.ASC;
+        return clientService.getByLastNameWithOrders(pageNumber-1, sortDirection);
     }
 
     @GetMapping(path = "/first",produces = MediaType.APPLICATION_JSON_VALUE)
@@ -59,9 +60,10 @@ public class ClientControllerRest {
     // DTO CLIENT
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<ClientDto> getDtoClients(@RequestParam(defaultValue = "1") int page, Sort.Direction sort) {
-        int pageNumber = page > 0 ? page : 1;
-        return DtoMapper.mapToClientDtos(clientService.getByLastName(pageNumber-1, sort));
+    public List<ClientDto> getDtoClients(@RequestParam(required = false) Integer page, Sort.Direction sort) {
+        int pageNumber = page != null && page > 0 ? page : 1;
+        Sort.Direction sortDirection = sort != null ? sort : Sort.Direction.ASC;
+        return DtoMapper.mapToClientDtos(clientService.getByLastName(pageNumber-1, sortDirection));
     }
 
 }

@@ -12,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -61,6 +62,8 @@ public class ClientService {
         clientRepository.save(client);
     }
 
+    // zeby miec tylko jedna transakcje dodajemy tą adnotacje
+    @Transactional
     public ResponseEntity<Client> editClient(Client client) {
         Client clientToUpdate = clientRepository.findById(client.getId()).orElseThrow(RuntimeException::new);
         updateClient(clientToUpdate, client);
@@ -74,7 +77,10 @@ public class ClientService {
         editedClient.setLastName(newClient.getLastName());
         editedClient.setAddress(newClient.getAddress());
         editedClient.setOrders(newClient.getOrders());
-        clientRepository.save(editedClient);
+
+        // metoda save w tym miejscu nie jest juz potrzebna bo hibernate z automatu to zrobi
+
+//        clientRepository.save(editedClient);
     }
 
     public void deleteClient(long id) {
